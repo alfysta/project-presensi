@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('kode_lemb_sert')->nullable();
             $table->string('peserta_didik_id')->nullable();
             $table->string('email')->nullable();
-            $table->string('a_bot')->nullable();
+            $table->string('nuptk')->nullable();
             $table->string('name')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->date('tgl_lahir')->nullable();

@@ -35,6 +35,7 @@
     <link href="{{asset('vendor/assets/dist/css/tabler-payments.min.css?1674944800')}}" rel="stylesheet"/>
     <link href="{{asset('vendor/assets/dist/css/tabler-vendors.min.css?1674944800')}}" rel="stylesheet"/>
     <link href="{{asset('vendor/assets/dist/css/demo.min.css?1674944800')}}" rel="stylesheet"/>
+    @stack('mystyle')
 
 
     <style>

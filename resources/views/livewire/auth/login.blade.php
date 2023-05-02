@@ -9,7 +9,7 @@
         <form wire:submit.prevent="loginUser" autocomplete="off" novalidate>
             <div class="mb-3">
             <label class="form-label">Email address</label>
-            <input type="email" wire:model.defer="email" class="form-control @error('email')is-invalid @enderror" placeholder="your@email.com" autocomplete="off">
+            <input type="email" wire:model.defer="email" class="form-control @error('email')is-invalid @enderror" placeholder="youremail@example.com" autocomplete="off">
                 @error('email')
                     <div class="invalid-feedback">
                         {{$message}}
@@ -43,9 +43,9 @@
             </div>
         </form>
         </div>
-    </div>
+    {{-- </div>
     <div class="text-center text-muted mt-3">
         Don't have account yet? <a href="./sign-up.html" tabindex="-1">Sign up</a>
-    </div>
+    </div> --}}
     </div>
 </div>
