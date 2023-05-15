@@ -20,6 +20,10 @@ class UserMiddleware
 
             return $next($request);
         }
-        return redirect('/');
+        if (Auth::user()->id_sdm_pengguna == 1) {
+            return redirect('/home');
+        } else {
+            return redirect('/');
+        }
     }
 }

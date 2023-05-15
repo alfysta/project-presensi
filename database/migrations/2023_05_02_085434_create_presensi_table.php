@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('presensi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
+            $table->string('user_id');
             $table->string('nuptk');
             $table->date('tanggal_presensi');
             $table->time('time_in');

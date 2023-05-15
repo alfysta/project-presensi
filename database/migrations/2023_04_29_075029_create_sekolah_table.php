@@ -25,8 +25,8 @@ return new class extends Migration
             $table->string('desa_kelurahan')->nullable();
             $table->string('kode_wilayah')->nullable();
             $table->string('kode_pos')->nullable();
-            $table->string('lintang')->nullable();
-            $table->string('bujur')->nullable();
+            $table->string('lokasi_kantor')->nullable();
+            $table->string('radius')->nullable();
             $table->string('nomor_telepon')->nullable();
             $table->string('nomor_fax')->nullable();
             $table->string('email')->nullable();

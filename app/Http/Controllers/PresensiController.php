@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absen;
+use App\Models\Sekolah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,7 +15,9 @@ class PresensiController extends Controller
         $tanggal_presensi = date("Y-m-d");
         $nuptk = Auth::user()->nuptk;
         $presensi = Absen::where(['tanggal_presensi' => $tanggal_presensi, 'nuptk' => $nuptk])->latest()->first();
-        return view('home.index', compact('presensi'));
+        $absen = Absen::where(['tanggal_presensi' => $tanggal_presensi, 'nuptk' => $nuptk])->count();
+        $lokasi_kantor = Sekolah::first();
+        return view('presensi.index', compact('presensi', 'absen', 'lokasi_kantor'));
     }
 
     public function store(Request $request)
@@ -24,8 +27,11 @@ class PresensiController extends Controller
         $tanggal_presensi = date("Y-m-d");
         $time_in = date("H:i:s");
 
-        $latitudeKantor = -1.4510862330048337;
-        $longitudeKantor = 122.37980866211892;
+        $sekolah = Sekolah::first();
+        $lokasi_kantor = explode(",", $sekolah->lokasi_kantor);
+
+        $latitudeKantor = $lokasi_kantor[0];
+        $longitudeKantor = $lokasi_kantor[1];
 
         $lokasi = $request->lokasi;
         $lokasiUser = explode(",", $lokasi);
@@ -51,7 +57,7 @@ class PresensiController extends Controller
         $file = $folderPath . $fileName;
         $absens = Absen::where(['tanggal_presensi' => $tanggal_presensi, 'nuptk' => $nuptk])->count();
 
-        if ($radius > 200000000000) {
+        if ($radius > $sekolah->radius) {
             echo "error|Maaf Anda Berada di luar Radius, Jarak Anda " . $radius . " meter dari Kantor|radius";
         } else {
             if ($absens > 0) {
@@ -101,43 +107,3 @@ class PresensiController extends Controller
         return compact('meters');
     }
 }
-
-
-// <?php
-
-// namespace App\Http\Controllers;
-
-// use App\Models\Absen;
-// use Illuminate\Http\Request;
-// use Illuminate\Support\Facades\Auth;
-// use Illuminate\Support\Facades\Storage;
-
-// class HomeController extends Controller
-// {
-//     public function __construct()
-//     {
-//         $this->middleware('auth');
-//     }
-
-
-//     public function index()
-//     {
-//         $tanggal_presensi = date("Y-m-d");
-//         $nuptk = Auth::user()->id;
-//         $presensi = Absen::where(['tanggal_presensi' => $tanggal_presensi, 'user_id' => $user_id])->latest()->first();
-//         return view('home.index', compact('presensi'));
-//     }
-
-//     public function create(Absen $absen)
-//     {
-//         $tanggal_presensi = date("Y-m-d");
-//         $user_id = Auth::user()->id;
-//         $absens = Absen::where(['tanggal_presensi'=> $tanggal_presensi, 'user_id' => $user_id])->count();
-//         return view('home.create', compact('absens'));
-//     }
-
-
-
-//     //Menghitung Jarak
-
-// }

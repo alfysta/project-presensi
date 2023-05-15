@@ -5,6 +5,6 @@
 <!-- Tabler Core -->
 <script src="{{asset('vendor/assets/dist/js/tabler.min.js?1674944800')}}" defer></script>
 <script src="{{asset('vendor/assets/dist/js/demo.min.js?1674944800')}}" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @livewireScripts
-<script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false" data-turbo-eval="false"></script>
 @stack('myscript')
