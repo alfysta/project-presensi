@@ -2,7 +2,7 @@
     <link href="{{ asset('vendor/assets/dist/css/bottommenu.css') }}" rel="stylesheet" />
 @endpush
 <div class="appBottomMenu">
-    <a href="#" class="item">
+    <a href="/" class="item">
         <div class="col">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home-hand" width="24"
                 height="24" style="width:25px;height:25px" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -16,7 +16,7 @@
             </svg>
         </div>
     </a>
-    <a href="#" class="item active">
+    <a href="{{ route('history.index') }}" class="item">
         <div class="col">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-check" width="24"
                 height="24" style="width:25px;height:25px" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -47,7 +47,7 @@
             </div>
         </div>
     </a>
-    <a href="#" class="item">
+    <a href="{{route('izin.index')}}" class="item">
         <div class="col">
             <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-certificate" width="24"
                 height="24" style="width:25px;height:25px" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"

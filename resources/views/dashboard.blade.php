@@ -10,6 +10,31 @@
     </svg>
 @endsection
 @section('title', 'Dashboard')
+@section('header')
+    <div class="page-header d-print-none">
+        <div class="container-xl">
+            <div class="row g-2 align-items-center">
+                <div class="col">
+                    <!-- Page pre-title -->
+                    <h2 class="page-title">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle"
+                            width="24" height="24" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor"
+                            fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                            <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                            <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855"></path>
+                        </svg> {{ strtoupper(auth()->user()->name) }}
+                    </h2>
+                    <div class="page-pretitle mx-4">
+                        {{ auth()->user()->jabatan }}
+                    </div>
+                </div>
+                <!-- Page title actions -->
+            </div>
+        </div>
+    </div>
+@endsection
 @section('master')
 
     <div class="row row-deck row-cards">
@@ -246,7 +271,8 @@
                                         <strong>Izin</strong>
                                     </div>
                                     <div class="text-muted">
-                                        32
+                                        <span
+                                            class="badge bg-red">{{ $rekapizin->jmlizin != '' ? $rekapizin->jmlizin : 0 }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +305,8 @@
                                         <strong>Sakit</strong>
                                     </div>
                                     <div class="text-muted">
-                                        16
+                                        <span
+                                            class="badge bg-red">{{ $rekapizin->jmlsakit != '' ? $rekapizin->jmlsakit : 0 }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -328,8 +355,8 @@
                         <div class="card-header">
                             <ul class="nav nav-tabs card-header-tabs nav-fill" data-bs-toggle="tabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a href="#tabs-home-13" class="nav-link active" data-bs-toggle="tab"
-                                        aria-selected="true" role="tab">
+                                    <a href="#history" class="nav-link active" data-bs-toggle="tab" aria-selected="true"
+                                        role="tab">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24"
                                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                             fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -345,8 +372,8 @@
                                     </a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a href="#tabs-profile-13" class="nav-link" data-bs-toggle="tab"
-                                        aria-selected="false" role="tab" tabindex="-1">
+                                    <a href="#leaderboard" class="nav-link" data-bs-toggle="tab" aria-selected="false"
+                                        role="tab" tabindex="-1">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon me-2" width="24"
                                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
                                             fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -369,8 +396,8 @@
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="tab-pane active show" id="tabs-home-13" role="tabpanel">
-                                    <div class="col-auto">
+                                <div class="tab-pane active show" id="history" role="tabpanel">
+                                    <div class="col-12">
                                         <div class="card" style="height: 20rem">
                                             <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                                                 <div class="divide-y">
@@ -388,7 +415,7 @@
                                                                 @foreach ($historybulanini as $item)
                                                                     <tr>
                                                                         <td class="text-center">
-                                                                            <small>{{ $loop->iteration }}.</small>
+                                                                            <small>{{ $loop->iteration }}</small>
                                                                         </td>
                                                                         <td class="text-center">
                                                                             <small>{{ date('d-m-Y', strtotime($item->tanggal_presensi)) }}</small>
@@ -422,14 +449,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="tabs-profile-13" role="tabpanel">
-                                    <div class="col-auto">
+                                <div class="tab-pane" id="leaderboard" role="tabpanel">
+                                    <div class="col-md-12">
                                         <div class="card" style="height: 20rem">
                                             <div class="card-body card-body-scrollable card-body-scrollable-shadow">
                                                 <div class="divide-y">
                                                     @foreach ($leaderboard as $item)
                                                         <div>
-                                                            <div class="row">
+                                                            <div class="row align-items-center">
                                                                 <div class="col-auto">
                                                                     <span class="avatar avatar-sm"
                                                                         style="background-image: url({{ $item->profile_photo_path == null ? $item->leaderboard() : asset('vendor/assets/images/photo/' . $item->profile_photo_path) }})"></span>
