@@ -20,44 +20,46 @@
                             <select name="bulan" id="bulan" class="form-select @error('bulan')is-invalid @enderror">
                                 <option selected disabled>Bulan</option>
                                 @for ($bulan = 1; $bulan <= 12; $bulan++)
-                                    <option value="{{ $bulan }}">{{ $month[$bulan] }}</option>
+                                    <option {{ $bulan == date('m') ? 'selected' : '' }} value="{{ $bulan }}">
+                                        {{ $month[$bulan] }}</option>
                                 @endfor
-                                @error('bulan')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </select>
+                            @error('bulan')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-auto my-3">
                         <div class="form-group">
                             <select name="tahun" id="tahun" class="form-select @error('tahun')is-invalid @enderror">
                                 <option selected disabled>Tahun</option>
-                                @for ($tahun = 2020; $tahun <= date('Y'); $tahun++)
-                                    <option value="{{ $tahun }}">{{ $tahun }}</option>
+                                @for ($tahun = date('Y'); $tahun >= date('Y') - 3; $tahun--)
+                                    <option {{ $tahun == date('Y') ? 'selected' : '' }} value="{{ $tahun }}">
+                                        {{ $tahun }}</option>
                                 @endfor
-                                @error('tahun')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </select>
+                            @error('tahun')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-auto my-3">
                         <div class="form-group">
                             <select name="name" id="name" class="form-select @error('name')is-invalid @enderror">
-                                <option selected disabled>Nama Karyawan</option>
+                                <option selected disabled>Nama GTK</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->nuptk }}">{{ $user->name }}</option>
                                 @endforeach
-                                @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
                             </select>
+                            @error('name')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-auto mt-3">

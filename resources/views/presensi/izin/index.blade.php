@@ -11,11 +11,10 @@
 @endsection
 @section('title', 'Izin/Sakit')
 @section('header')
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none text-white">
         <div class="container-xl">
             <div class="row align-items-center">
                 <div class="col">
-                    <!-- Page pre-title -->
                     <h3 class="page-title">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle"
                             width="24" height="24" viewBox="0 0 24 24" stroke-width="4" stroke="currentColor"
@@ -27,7 +26,6 @@
                         </svg> Ketidakhadiran (Sakit/Izin)
                     </h3>
                 </div>
-                <!-- Page title actions -->
             </div>
         </div>
     </div>

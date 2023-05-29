@@ -215,7 +215,7 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item {{ request()->is('home/*') ? ' active' : '' }} dropdown">
+                <li class="nav-item {{ request()->is(['home/teachers', 'home/students']) ? ' active' : '' }} dropdown">
                     <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="true">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -238,7 +238,7 @@
                             Master
                         </span>
                     </a>
-                    <div class="dropdown-menu{{ request()->is('home/*') ? ' show' : '' }}">
+                    <div class="dropdown-menu{{ request()->is('home/teachers', 'home/students') ? ' show' : '' }}">
                         <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
                                 <a class="dropdown-item{{ request()->is('home/teachers') ? ' active' : '' }}"
@@ -259,31 +259,121 @@
                                 <a class="dropdown-item{{ request()->is('home/students') ? ' active' : '' }}"
                                     href="{{ route('students') }}">
                                     <span class="nav-link-icon d-md-none d-lg-inline-block">
-                                        <!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->
                                         <svg xmlns="http://www.w3.org/2000/svg"
-                                            class="icon icon-tabler icon-tabler-backpack" width="24"
+                                            class="icon icon-tabler icon-tabler-binary-tree" width="24"
                                             height="24" viewBox="0 0 24 24" stroke-width="2"
                                             stroke="currentColor" fill="none" stroke-linecap="round"
                                             stroke-linejoin="round">
                                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                            <path
-                                                d="M5 18v-6a6 6 0 0 1 6 -6h2a6 6 0 0 1 6 6v6a3 3 0 0 1 -3 3h-8a3 3 0 0 1 -3 -3z">
-                                            </path>
-                                            <path d="M10 6v-1a2 2 0 1 1 4 0v1"></path>
-                                            <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
-                                            <path d="M11 10h2"></path>
+                                            <path d="M6 20a2 2 0 1 0 -4 0a2 2 0 0 0 4 0z"></path>
+                                            <path d="M16 4a2 2 0 1 0 -4 0a2 2 0 0 0 4 0z"></path>
+                                            <path d="M16 20a2 2 0 1 0 -4 0a2 2 0 0 0 4 0z"></path>
+                                            <path d="M11 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0z"></path>
+                                            <path d="M21 12a2 2 0 1 0 -4 0a2 2 0 0 0 4 0z"></path>
+                                            <path d="M5.058 18.306l2.88 -4.606"></path>
+                                            <path d="M10.061 10.303l2.877 -4.604"></path>
+                                            <path d="M10.065 13.705l2.876 4.6"></path>
+                                            <path d="M15.063 5.7l2.881 4.61"></path>
                                         </svg>
                                     </span>
                                     Peserta Didik
                                     <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span>
                                 </a>
                             </div>
+                        </div>
+                    </div>
+                </li>
+                <li
+                    class="nav-item {{ request()->is(['home/report', 'home/report/all']) ? ' active' : '' }} dropdown">
+                    <a class="nav-link dropdown-toggle" href="#navbar-layout" data-bs-toggle="dropdown"
+                        data-bs-auto-close="false" role="button" aria-expanded="true">
+                        <span class="nav-link-icon d-md-none d-lg-inline-block">
+                            <!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check"
+                                width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
+                                stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path>
+                                <path d="M3.5 11.5l1.5 1.5l2.5 -2.5"></path>
+                                <path d="M3.5 17.5l1.5 1.5l2.5 -2.5"></path>
+                                <path d="M11 6l9 0"></path>
+                                <path d="M11 12l9 0"></path>
+                                <path d="M11 18l9 0"></path>
+                            </svg>
+                        </span>
+                        <span class="nav-link-title">
+                            Laporan
+                        </span>
+                    </a>
+                    <div
+                        class="dropdown-menu{{ request()->is(['home/report', 'home/report/all', 'home/monitoring']) ? ' show' : '' }}">
+                        <div class="dropdown-menu-columns">
                             <div class="dropdown-menu-column">
-                                <a class="dropdown-item" href="./layout-navbar-dark.html">
-                                    Navbar dark
+                                <a class="dropdown-item{{ request()->is('home/monitoring') ? ' active' : '' }}"
+                                    href="{{ route('monitoring') }}">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-heart-rate-monitor" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2"
+                                            stroke="currentColor" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path
+                                                d="M3 4m0 1a1 1 0 0 1 1 -1h16a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-16a1 1 0 0 1 -1 -1z">
+                                            </path>
+                                            <path d="M7 20h10"></path>
+                                            <path d="M9 16v4"></path>
+                                            <path d="M15 16v4"></path>
+                                            <path d="M7 10h2l2 3l2 -6l1 3h3"></path>
+                                        </svg>
+                                    </span>
+                                    Monitoring
                                 </a>
-                                <a class="dropdown-item" href="./layout-navbar-sticky.html">
-                                    Navbar sticky
+                                <a class="dropdown-item{{ request()->is('home/report') ? ' active' : '' }}"
+                                    href="{{ route('report') }}">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-report-search" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2"
+                                            stroke="currentColor" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697"></path>
+                                            <path d="M18 12v-5a2 2 0 0 0 -2 -2h-2"></path>
+                                            <path
+                                                d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z">
+                                            </path>
+                                            <path d="M8 11h4"></path>
+                                            <path d="M8 15h3"></path>
+                                            <path d="M16.5 17.5m-2.5 0a2.5 2.5 0 1 0 5 0a2.5 2.5 0 1 0 -5 0"></path>
+                                            <path d="M18.5 19.5l2.5 2.5"></path>
+                                        </svg>
+                                    </span>
+                                    Laporan Individu
+                                </a>
+                                <a class="dropdown-item{{ request()->is('home/report/all') ? ' active' : '' }}"
+                                    href="{{ route('report.all') }}">
+                                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                                        <!-- Download SVG icon from http://tabler-icons.io/i/layout-2 -->
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="icon icon-tabler icon-tabler-printer" width="24"
+                                            height="24" viewBox="0 0 24 24" stroke-width="2"
+                                            stroke="currentColor" fill="none" stroke-linecap="round"
+                                            stroke-linejoin="round">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                            <path
+                                                d="M17 17h2a2 2 0 0 0 2 -2v-4a2 2 0 0 0 -2 -2h-14a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h2">
+                                            </path>
+                                            <path d="M17 9v-4a2 2 0 0 0 -2 -2h-6a2 2 0 0 0 -2 2v4"></path>
+                                            <path
+                                                d="M7 13m0 2a2 2 0 0 1 2 -2h6a2 2 0 0 1 2 2v4a2 2 0 0 1 -2 2h-6a2 2 0 0 1 -2 -2z">
+                                            </path>
+                                        </svg>
+                                    </span>
+                                    Laporan GTK
+                                    <span class="badge badge-sm bg-green-lt text-uppercase ms-auto">New</span>
                                 </a>
                             </div>
                         </div>

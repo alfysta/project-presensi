@@ -55,13 +55,10 @@
     @livewireStyles
 </head>
 
-<body class="d-flex flex-column">
+<body class="page-body">
     <script src="{{ asset('vendor/assets/dist/js/demo-theme.min.js?1674944800') }}"></script>
     <div class="page page-center">
-
         @yield('master')
-
-
     </div>
 
 

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\{DashboardController, HistoryController, UserController, HomeController, IzinController, PresensiController, ReportController, SettingController, StudentController, TeacherController};
+use App\Http\Controllers\{DashboardController, HistoryController, UserController, HomeController, IzinController, MonitoringController, PresensiController, ReportController, SettingController, StudentController, TeacherController};
 use App\Http\Livewire\Auth\Login;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -35,4 +35,6 @@ Route::middleware(['auth', 'userAkses:1'])->group(function () {
     Route::post('/home/report/show', [ReportController::class, 'show'])->name('report.show');
     Route::get('/home/report/all', [ReportController::class, 'report'])->name('report.all');
     Route::post('/home/report/print', [ReportController::class, 'print'])->name('report.print');
+    Route::get('/home/monitoring', [MonitoringController::class, 'index'])->name('monitoring');
+    Route::post('/home/monitoring/show', [MonitoringController::class, 'show'])->name('monitoring.show');
 });

@@ -16,27 +16,33 @@ class IzinController extends Controller
 
     public function create()
     {
-
         return view('presensi.izin.create');
     }
 
     public function store(Request $request)
     {
+        $izin = Izin::where('nuptk', auth()->user()->nuptk)->where('tanggal_izin', $request->tanggal_izin)->count();
+
         $request->validate([
             'tanggal_izin' => ['required'],
             'status' => ['required'],
             'alasan' => ['required']
         ]);
 
-        Izin::create([
-            'user_id' => auth()->user()->id,
-            'nuptk' => auth()->user()->nuptk,
-            'tanggal_izin' => $request->tanggal_izin,
-            'status' => $request->status,
-            'alasan' => $request->alasan,
-            'upproved' => 0,
-        ]);
-
-        return redirect()->to('/presensi/izin');
+        if ($izin == 1) {
+            session()->flash('error', 'Anda Sudah Melakukan izin/sakit pada tanggal ini');
+            return redirect()->to('/presensi/izin/create');
+        } else {
+            Izin::create([
+                'user_id' => auth()->user()->id,
+                'nuptk' => auth()->user()->nuptk,
+                'tanggal_izin' => $request->tanggal_izin,
+                'status' => $request->status,
+                'alasan' => $request->alasan,
+                'upproved' => 0,
+            ]);
+            session()->flash('success', 'Input data Izin/Sakit Berhasil');
+            return redirect()->to('/presensi/izin');
+        }
     }
 }

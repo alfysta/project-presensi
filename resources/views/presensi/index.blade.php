@@ -12,7 +12,7 @@
 @section('title', 'Welcome')
 
 @section('header')
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none text-white">
         <div class="container-xl">
             <div class="row g-2 align-items-center">
                 <div class="col">
@@ -210,7 +210,7 @@
                             text: status[1],
                             icon: status[0],
                         })
-                        setTimeout("location.href='{{ route('dashboard') }}'", 2000)
+                        setTimeout("location.href='{{ route('dashboard') }}'", 3000)
                     } else {
                         if (status[2] == 'radius') {
                             radius.play();

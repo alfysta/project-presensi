@@ -1,43 +1,15 @@
-@extends('layouts.frontend')
+@extends('layouts.app')
 @section('icon')
-    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-backpack" width="24" height="24"
+    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24" height="24"
         viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M5 18v-6a6 6 0 0 1 6 -6h2a6 6 0 0 1 6 6v6a3 3 0 0 1 -3 3h-8a3 3 0 0 1 -3 -3z"></path>
-        <path d="M10 6v-1a2 2 0 1 1 4 0v1"></path>
-        <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4"></path>
-        <path d="M11 10h2"></path>
+        <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6"></path>
+        <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4"></path>
     </svg>
 @endsection
-@section('title', 'History')
+@section('title', 'Monitoring Kehadiran GTK')
+@section('content')
 
-@section('header')
-    <div class="page-header d-print-none text-white">
-        <div class="container-xl">
-            <div class="row g-2 align-items-center">
-                <div class="col">
-                    <!-- Page pre-title -->
-                    <h2 class="page-title">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list-check"
-                            width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                            fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                            <path d="M3.5 5.5l1.5 1.5l2.5 -2.5"></path>
-                            <path d="M3.5 11.5l1.5 1.5l2.5 -2.5"></path>
-                            <path d="M3.5 17.5l1.5 1.5l2.5 -2.5"></path>
-                            <path d="M11 6l9 0"></path>
-                            <path d="M11 12l9 0"></path>
-                            <path d="M11 18l9 0"></path>
-                        </svg> History Presensi
-                    </h2>
-                </div>
-                <!-- Page title actions -->
-            </div>
-        </div>
-    </div>
-@endsection
-
-@section('master')
     <div class="row">
         <div class="col-12">
             <div class="card my-2">
@@ -45,7 +17,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-1">
+                                    <select name="tanggal" id="tanggal" class="form-select">
+                                        <option disabled>Tanggal</option>
+                                        @for ($tanggal = 1; $tanggal <= 31; $tanggal++)
+                                            <option {{ date('d') == $tanggal ? 'selected' : '' }}
+                                                value="{{ $tanggal }}">
+                                                {{ $tanggal }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                                <div class="col-3">
                                     <select name="bulan" id="bulan" class="form-select">
                                         <option disabled>Bulan</option>
                                         @for ($bulan = 1; $bulan <= 12; $bulan++)
@@ -81,34 +63,52 @@
                 </div>
             </div>
         </div>
-    </div>
+        <div class="col-12">
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table card-table table-vcenter text-nowrap datatable">
+                        <thead>
+                            <tr>
+                                <th class="w-1">No. </th>
+                                <th>Nama GTK</th>
+                                <th>NUPTK</th>
+                                <th>Jabatan</th>
+                                <th>Jam Masuk</th>
+                                <th>Foto Masuk</th>
+                                <th>Jam Pulang</th>
+                                <th>Foto Pulang</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="loadmonitoring"></tbody>
+                    </table>
+                </div>
 
-    <div class="row">
-        <div class="col-md-6" id="showHistory"></div>
+            </div>
+        </div>
     </div>
-
-    @include('layouts.components.bottommenu')
 
 @endsection
-
 @push('myscript')
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
         $(function() {
             $("#getData").click(function(e) {
+                var tanggal = $("#tanggal").val();
                 var bulan = $("#bulan").val();
                 var tahun = $("#tahun").val();
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('history.store') }}',
+                    url: '{{ route('monitoring.show') }}',
                     data: {
                         _token: "{{ csrf_token() }}",
+                        tanggal: tanggal,
                         bulan: bulan,
                         tahun: tahun
                     },
                     cache: false,
                     success: function(response) {
-                        $("#showHistory").html(response)
+                        $("#loadmonitoring").html(response)
                     }
                 });
             });

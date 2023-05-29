@@ -3,28 +3,75 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Report Presensi Per GTK</title>
+    <title>Laporan Kehadiran GTK {{ $gtk->name }} {{ $month[$bulan] . ' ' . $tahun }}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paper-css/0.4.1/paper.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <style>
-        @page {
-            size: A4
+        body {
+            margin: 0
+        }
+
+        .sheet {
+            margin: 0;
+            overflow: hidden;
+            position: relative;
+            box-sizing: border-box;
+            page-break-after: always;
+        }
+
+        /** Paper sizes **/
+        body.A4 .sheet {
+            width: 210mm;
+            height: 600mm
+        }
+
+        /** Padding area **/
+        .sheet.padding-10mm {
+            padding: 10mm
+        }
+
+        .sheet.padding-15mm {
+            padding: 15mm
+        }
+
+        .sheet.padding-20mm {
+            padding: 20mm
+        }
+
+        .sheet.padding-25mm {
+            padding: 25mm
+        }
+
+        /** For screen preview **/
+        @media screen {
+            body {
+                background: #e0e0e0
+            }
+
+            .sheet {
+                background: white;
+                box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);
+                margin: 5mm auto;
+            }
         }
 
         table.blueTable {
             border: 1px solid #000000;
             width: 100%;
             height: 100px;
-            text-align: left;
+            text-align: center;
             border-collapse: collapse;
         }
 
-        table.blueTable td,
         table.blueTable th {
             border: 1px solid #000000;
-            padding: 3px 2px;
+            padding: 10px 2px;
         }
+
+        table.blueTable td {
+            border: 1px solid #000000;
+            padding: 2px 2px;
+        }
+
 
         table.blueTable tbody td {
             font-size: 14px;
@@ -96,8 +143,8 @@
 
                 </table>
             </strong></article>
-        <hr>
-        <article>
+        <hr style="border:2px solid">
+        <article style="margin-top:15px; margin-bottom:15px">
             <center><strong>LAPORAN KEHADIRAN</strong></center>
             <center><strong>GURU DAN TENAGA KEPENDIDIKAN</strong></center>
             <center><strong>BULAN {{ strtoupper($month[$bulan] . ' ' . $tahun) }}</strong></center>
@@ -156,63 +203,50 @@
                 </tr>
             </table>
         </article>
-        <table class="blueTable">
+        <table class="blueTable" style="margin-top:20px">
             <thead>
                 <tr>
-                    <th>
-                        <center>No</center>
-                    </th>
-                    <th>
-                        <center>Tanggal</center>
-                    </th>
-                    <th>
-                        <center>Jam Masuk</center>
-                    </th>
-                    <th>
-                        <center>Foto Masuk</center>
-                    </th>
-                    <th>
-                        <center>Jam Pulang</center>
-                    </th>
-                    <th>
-                        <center>Foto Pulang</center>
-                    </th>
-                    <th>
-                        <center>Ket</center>
-                    </th>
-                    <th>
-                        <center>Jumlah Jam Kerja</center>
-                    </th>
+                    <th>No</th>
+                    <th>Tanggal</th>
+                    <th>Jam Masuk</th>
+                    <th>Foto Masuk</th>
+                    <th>Jam Pulang</th>
+                    <th>Foto Pulang</th>
+                    <th>Jumlah Jam Kerja</th>
+                    <th>Ket</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($presensi as $item)
                     <tr>
                         <td>
-                            <center>{{ $loop->iteration }}.</center>
+                            {{ $loop->iteration }}.
                         </td>
                         <td>
-                            <center>{{ date('d-m-Y', strtotime($item->tanggal_presensi)) }}</center>
+                            {{ date('d-m-Y', strtotime($item->tanggal_presensi)) }}
                         </td>
                         <td>
-                            <center>{{ date('H:i', strtotime($item->time_in)) }}</center>
+                            {{ date('H:i:s', strtotime($item->time_in)) }}
                         </td>
                         <td>
-                            <center><img src="{{ Storage::url('uploads/absensi/' . $item->photo_in) }}"
-                                    style="width:24px"></center>
+                            <img src="{{ Storage::url('uploads/absensi/' . $item->photo_in) }}" style="width:24px">
                         </td>
                         <td>
-                            <center>{{ date('H:i', strtotime($item->time_out)) }}</center>
+                            {{ date('H:i:s', strtotime($item->time_out)) }}
                         </td>
                         <td>
-                            <center><img src="{{ Storage::url('uploads/absensi/' . $item->photo_out) }}"
-                                    style="width:24px"></center>
+                            <img src="{{ Storage::url('uploads/absensi/' . $item->photo_out) }}" style="width:24px">
+                        </td>
+
+                        <td>
+                            @if ($item->time_out == '')
+                                Belum Absen
+                            @else
+                                {{ $item->terlambat($item->time_in, $item->time_out) }}
+                            @endif
                         </td>
                         <td>
-                            <center>{{ $item->time_in > '07:00:00' ? 'Terlambat' : 'Tepat Waktu' }}</center>
-                        </td>
-                        <td>
-                            <center>{{ $item->time_in > '07:00:00' ? 'Terlambat' : 'Tepat Waktu' }}</center>
+                            {{ $item->time_in > '07:00:00' ? 'Terlambat ' . $item->terlambat('07:00:00', $item->time_in) : 'Tepat Waktu' }}
                         </td>
                     </tr>
                 @endforeach
@@ -220,21 +254,28 @@
             </tr>
         </table>
 
-        <article>
-            <td>
-                <center style="margin-top:50px">Moilong, {{ date('d F Y') }}
-                </center>
-            </td>
-            <td style="width:600px">
-                <center>KEPALA SEKOLAH</center>
-                <center style="margin-top: 50px"><strong>SAFIUDDIN, S.Pd., M.A.P.</strong></center>
-                <center>NIP : 198787883 0298789 1 001</center>
-            </td>
-        </article>
+        <table style="margin-top:50px">
+            <thead>
+                <tr>
+                    <td style="width:600px">
+                        Mengetahui,<br />
+                        KEPALA SEKOLAH<br />
+                        <br /><br /><br />
+                        <strong>SAFIUDDIN, S.Pd., M.A.P.</strong><br />
+                        NIP : 198787883 0298789 1 001<br />
+
+                    </td>
+                    <td style="width:400px">
+                        Moilong, {{ date('d F Y') }}<br />
+                        KEPALA ADMINISTRASI SEKOLAH<br />
+                        <br /><br /><br />
+                        <strong>SYAIFUL MEONTI, S.Kom</strong><br />
+                        NIP : 19780807 201411 1 002<br />
+                    </td>
+                </tr>
+            </thead>
+        </table>
     </section>
-
-
-
 </body>
 
 </html>

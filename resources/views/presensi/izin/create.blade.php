@@ -12,9 +12,9 @@
 @section('title', 'Create Izin/Sakit')
 
 @section('header')
-    <div class="page-header d-print-none">
+    <div class="page-header d-print-none text-white">
         <div class="container-xl">
-            <div class="row align-items-center">
+            <div class="row g-2 align-items-center">
                 <div class="col">
                     <h3 class="page-title">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-circle"
@@ -61,13 +61,19 @@
                                         </svg>
                                     </span>
                                     <input class="form-control @error('tanggal_izin')is-invalid @enderror"
-                                        name="tanggal_izin" id="datepicker" value="{{ date('Y-m-d') }}" autocomplete="off">
-                                    @error('tanggal_izin')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                    @enderror
+                                        name="tanggal_izin" id="tanggal_izin"
+                                        value="{{ old('tanggal_izin') ?? date('Y-m-d') }}" autocomplete="off">
                                 </div>
+                                @if (session()->has('error'))
+                                    <small class="form-check-description text-danger">
+                                        {{ session()->get('error') }}
+                                    </small>
+                                @endif
+                                @error('tanggal_izin')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
 
                             </div>
                             <div class="mb-3">
@@ -113,18 +119,32 @@
         </form>
     </div>
 
-
     @include('layouts.components.bottommenu')
 
 @endsection
 
 @push('myscript')
     <script src="{{ asset('vendor/assets/dist/libs/litepicker/dist/litepicker.js?1674944402') }}" defer></script>
-
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             window.Litepicker && (new Litepicker({
-                element: document.getElementById('datepicker'),
+                element: document.getElementById('tanggal_izin'),
+                buttonText: {
+                    previousMonth: `
+                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M15 6l-6 6l6 6" />
+                        </svg>`,
+                    nextMonth: `
+                        <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+                            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M9 6l6 6l-6 6" />
+                        </svg>`,
+                },
             }));
         });
     </script>

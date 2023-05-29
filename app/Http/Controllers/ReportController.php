@@ -10,7 +10,7 @@ class ReportController extends Controller
 {
     public function index()
     {
-        $users = User::get();
+        $users = User::orderBy('name')->get();
         $month = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         return view('report.index', compact('month', 'users'));
     }
@@ -50,7 +50,7 @@ class ReportController extends Controller
         $bulan = $request->bulan;
         $tahun = $request->tahun;
 
-        $rekap = Absen::selectRaw('presensi.nuptk, users.name, 
+        $rekap = Absen::selectRaw('presensi.nuptk, users.name,users.jabatan,ptk.nip,ptk.status_data,
                 MAX(IF(DAY(tanggal_presensi)=1,CONCAT(time_in, "-",IFNULL(time_out,"00:00:00")),"")) as tgl_1,
                 MAX(IF(DAY(tanggal_presensi)=2,CONCAT(time_in, "-",IFNULL(time_out,"00:00:00")),"")) as tgl_2,
                 MAX(IF(DAY(tanggal_presensi)=3,CONCAT(time_in, "-",IFNULL(time_out,"00:00:00")),"")) as tgl_3,
@@ -83,9 +83,12 @@ class ReportController extends Controller
                 MAX(IF(DAY(tanggal_presensi)=30,CONCAT(time_in, "-",IFNULL(time_out,"00:00:00")),"")) as tgl_30,
                 MAX(IF(DAY(tanggal_presensi)=31,CONCAT(time_in, "-",IFNULL(time_out,"00:00:00")),"")) as tgl_31')
             ->join('users', 'users.nuptk', "=", 'presensi.nuptk')
+            ->join('ptk', 'ptk.nuptk', "=", 'presensi.nuptk')
             ->whereRaw('MONTH(tanggal_presensi) ="' . $bulan . '"')
             ->whereRaw('YEAR(tanggal_presensi) ="' . $tahun . '"')
-            ->groupByRaw('presensi.nuptk, users.name')
+            ->groupByRaw('presensi.nuptk, users.name,ptk.nip,users.jabatan,ptk.status_data')
+            ->orderBy('ptk.status_data', "ASC")
+            ->orderBy('users.name', "ASC")
             ->get();
 
         $month = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
